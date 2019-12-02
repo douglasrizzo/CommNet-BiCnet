@@ -2,6 +2,7 @@ import numpy as np
 
 
 class GuessingSumEnv:
+
     def __init__(self, num_agents=5):
         self.num_agents = num_agents
         self.sum = 0
@@ -13,9 +14,11 @@ class GuessingSumEnv:
             raise Exception('got input shape ', actions.shape, ' instead of ', (self.num_agents, 1))
 
         observations = None
-        rewards = -np.abs(actions - self.sum) # [-Inf ; 0]
+        rewards = -np.abs(actions - self.sum)  # [-Inf ; 0]
 
-        normalized_rewards = (np.maximum(rewards, -self.sum_scale) + self.sum_scale) / self.sum_scale # [0 ; 1]
+        normalized_rewards = (
+            np.maximum(rewards, -self.sum_scale) + self.sum_scale
+        ) / self.sum_scale  # [0 ; 1]
 
         done = True
         info = None

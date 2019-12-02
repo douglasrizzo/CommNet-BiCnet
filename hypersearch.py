@@ -1,11 +1,13 @@
-from concurrent import futures
-from multiprocessing import cpu_count
-import train_comm_net
 import itertools
 import shlex
+from concurrent import futures
+from multiprocessing import cpu_count
+
+import train_commnet
+
 
 def start_process(args):
-    process = pool.submit(train_comm_net.main, args)
+    process = pool.submit(train_commnet.main, args)
     process.arg = args
     process.add_done_callback(done_callback)
     return False
@@ -29,11 +31,7 @@ if __name__ == '__main__':
     print('Initializing Process Pool - {0} workers'.format(num_workers))
     pool = futures.ProcessPoolExecutor(max_workers=num_workers)
 
-    params = {
-        "--actor-lr": [0.01, 0.05, 0.1, 0.15],
-        "--critic-lr": [0.01, 0.05, 0.1, 0.15]
-    }
-
+    params = {"--actor-lr": [0.01, 0.05, 0.1, 0.15], "--critic-lr": [0.01, 0.05, 0.1, 0.15]}
 
     hyperparams_names = list(params.keys())
     hyperparams = list(itertools.product(*params.values()))
